@@ -57,7 +57,6 @@ Available at https://sprocketsmixinsstatsd.readthedocs.org/en/latest/history.htm
    :target: https://travis-ci.org/sprockets/sprockets.mixins.statsd
 
 .. |Coverage| image:: https://img.shields.io/coveralls/sprockets/sprockets.mixins.statsd.svg?
-.. |Coverage| image:: https://coveralls.io/repos/sprockets/sprockets.mixins.statsd.svg?
    :target: https://coveralls.io/r/sprockets/sprockets.mixins.statsd
 
 .. |Downloads| image:: https://pypip.in/d/sprockets.mixins.statsd/badge.svg?
