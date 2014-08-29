@@ -73,12 +73,12 @@ class RequestMetricsMixin(object):
                               self.__module__,
                               self.__class__.__name__,
                               self.request.method,
-                              self.request.status_code,
+                              self._status_code,
                               value=self.request.request_time() * 1000)
             statsd.incr(STATSD_PREFIX,
                         'counters',
                         self.__module__,
                         self.__class__.__name__,
                         self.request.method,
-                        self.request.status_code)
+                        self._status_code)
         super(RequestMetricsMixin, self).on_finish()
