@@ -39,8 +39,8 @@ class MixinTests(unittest.TestCase):
                                                   uri='http://test/foo',
                                                   connection=Connection(),
                                                   host='127.0.0.1')
-        self.request.status_code = 200
         self.handler = StatsdRequestHandler(self.application, self.request)
+        self.handler._status_code = 200
 
     @mock.patch('sprockets.clients.statsd.add_timing')
     @mock.patch('sprockets.clients.statsd.incr')
