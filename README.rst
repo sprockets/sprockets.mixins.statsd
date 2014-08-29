@@ -40,7 +40,6 @@ and add a request duration timing value to statsd when the request finishes.
         def get(self, *args, **kwargs):
             self.finish({'hello': 'world'})
 
-"""
 When the request has finished, the following keys would be used:
 
 - Counter: ``sprockets.counter.example.RequestHandler.GET.200``
