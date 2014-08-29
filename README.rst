@@ -21,8 +21,7 @@ https://sprocketsmixinsstatsd.readthedocs.org
 
 Requirements
 ------------
-@TODO: Put full requirements list here, should match requirements.text
--  `sprockets <https://github.com/sprockets/sprockets>`_
+-  `sprockets.client.statsd <https://github.com/sprockets/sprockets.client.statsd>`_
 
 Example
 -------
