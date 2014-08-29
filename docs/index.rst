@@ -56,7 +56,7 @@ Indices and tables
 .. |Status| image:: https://travis-ci.org/sprockets/sprockets.mixins.statsd.svg?branch=master
    :target: https://travis-ci.org/sprockets/sprockets.mixins.statsd
 
-.. |Coverage| image:: https://coveralls.io/repos/sprockets/sprockets.mixins.statsd.svg?
+.. |Coverage| image:: https://img.shields.io/coveralls/sprockets/sprockets.mixins.statsd.svg?
    :target: https://coveralls.io/r/sprockets/sprockets.mixins.statsd
 
 .. |Downloads| image:: https://pypip.in/d/sprockets.mixins.statsd/badge.svg?
