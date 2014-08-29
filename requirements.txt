@@ -1,1 +1,2 @@
+sprockets>=0.1.1
 sprockets.clients.statsd>=1.0.0
