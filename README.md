@@ -1,2 +1,0 @@
-sprockets.mixins.statsd
-=======================
