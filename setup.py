@@ -29,7 +29,7 @@ if sys.version_info < (3, 0):
 
 setuptools.setup(
     name='sprockets.mixins.statsd',
-    version='1.0.1',
+    version='1.0.2',
     description='Handler mixins for automated metric reporting',
     long_description=codecs.open('README.rst', encoding='utf-8').read(),
     url='https://github.com/sprockets/sprockets.mixins.statsd.git',

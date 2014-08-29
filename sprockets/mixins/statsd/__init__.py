@@ -39,7 +39,7 @@ import os
 
 from sprockets.clients import statsd
 
-version_info = (1, 0, 1)
+version_info = (1, 0, 2)
 __version__ = '.'.join(str(v) for v in version_info)
 
 STATSD_PREFIX = os.getenv('STATSD_PREFIX', 'sprockets')
