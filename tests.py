@@ -49,7 +49,8 @@ class MixinTests(unittest.TestCase):
         self.duration = self.request._finish_time - self.request._start_time
         self.handler.on_finish()
         add_timing.assert_called_once_with('sprockets', 'timers', 'tests',
-                                           'StatsdRequestHandler', 'GET', 200,
+                                           'StatsdRequestHandler', 'GET',
+                                           '200',
                                            value=self.duration * 1000)
 
     @mock.patch('sprockets.clients.statsd.add_timing')
@@ -57,4 +58,4 @@ class MixinTests(unittest.TestCase):
     def test_on_finish_calls_statsd_incr(self, incr, add_timing):
         self.handler.on_finish()
         incr.assert_called_once_with('sprockets', 'counters', 'tests',
-                                     'StatsdRequestHandler', 'GET', 200)
+                                     'StatsdRequestHandler', 'GET', '200')
