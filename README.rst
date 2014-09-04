@@ -30,10 +30,10 @@ and add a request duration timing value to statsd when the request finishes.
 
 .. code:: python
 
-    from sprockets.handlers.mixins import statsd
+    from sprockets.mixins import statsd
     from tornado import web
 
-    class MyRequestHandler(stats.RequestMetricsMixin,
+    class MyRequestHandler(statsd.RequestMetricsMixin,
                            web.RequestHandler):
 
         def get(self, *args, **kwargs):
