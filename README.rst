@@ -17,7 +17,7 @@ and can be installed via ``pip`` or ``easy_install``:
 
 Documentation
 -------------
-https://sprocketsmixinsstatsd.readthedocs.org
+https://sprocketsmixinsstatsd.readthedocs.org/
 
 Requirements
 ------------
@@ -36,13 +36,32 @@ and add a request duration timing value to statsd when the request finishes.
     class MyRequestHandler(statsd.RequestMetricsMixin,
                            web.RequestHandler):
 
+        def prepare(self):
+            self.statsd_prefix = 'some.overriden.value'
+            super(MyRequestHandler, self).prepare()
+
         def get(self, *args, **kwargs):
             self.finish({'hello': 'world'})
+
+        def on_finish(self):
+            super(MyRequestHandler, self).on_finish()
+            self.do_cleanup_things()
+
 
 When the request has finished, the following keys would be used:
 
 - Counter: ``sprockets.counter.example.RequestHandler.GET.200``
 - Timing: ``sprockets.timers.example.RequestHandler.GET.200``
+
+Mixin Behavior
+--------------
+Whenever you mix in a class in Python always ensure that the mixins, which
+should inherit from ``object``, are the first ones in the inheritance list.
+The concrete class, in this case `web.RequestHandler` should be the final
+class inherited.
+
+Should your Request Handler extend the ``finish`` or the ``prepare`` methods
+ensure that your call ``super`` otherwise you may run into strange behavior.
 
 Version History
 ---------------
