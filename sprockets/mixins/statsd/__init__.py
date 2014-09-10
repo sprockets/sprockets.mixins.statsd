@@ -39,17 +39,37 @@ import os
 
 from sprockets.clients import statsd
 
-version_info = (1, 0, 3)
+version_info = (1, 0, 4)
 __version__ = '.'.join(str(v) for v in version_info)
-
-STATSD_PREFIX = os.getenv('STATSD_PREFIX', 'sprockets')
 
 
 class RequestMetricsMixin(object):
-    """The ``RequestMetricsMixin`` automatically sends statsd metrics upon the
-    completion of each request.
+    """Automatically sends statsd metrics upon the completion of each request.
+
+    As with all mixins, ensure that you inherit from the mixin classes
+    *before* you inherit from a concrete class.  In addition to this, alway
+    remember to ``super`` the ``on_finish`` and ``prepare`` methods should
+    you decide to extend them.
+
+    Example Usage
+    -------------
+
+    class MyRequestHandler(
+            sprockets.mixins.statsd.RequestMetricsMixin,
+            tornado.web.RequestHandler):
+
+        def prepare(self):
+            super(RequestMetricsMixin, self).prepare()
+            do_prepare_stuff()
+
+        @gen.coroutine
+        def post(self):
+            self.write(yield self.foo())
 
     """
+
+    statsd_prefix = os.getenv('STATSD_PREFIX', 'sprockets')
+
     def on_finish(self):
         """Invoked once the request has been finished. Increments a counter
         created in the format:
@@ -68,17 +88,19 @@ class RequestMetricsMixin(object):
 
         """
         if hasattr(self, 'request') and self.request:
-            statsd.add_timing(STATSD_PREFIX,
+            statsd.add_timing(self.statsd_prefix,
                               'timers',
                               self.__module__,
                               self.__class__.__name__,
                               self.request.method,
                               str(self._status_code),
                               value=self.request.request_time() * 1000)
-            statsd.incr(STATSD_PREFIX,
+
+            statsd.incr(self.statsd_prefix,
                         'counters',
                         self.__module__,
                         self.__class__.__name__,
                         self.request.method,
                         str(self._status_code))
+
         super(RequestMetricsMixin, self).on_finish()

@@ -3,6 +3,8 @@ import sys
 
 import setuptools
 
+from sprockets.mixins.statsd import __version__ as version
+
 
 def read_requirements_file(req_name):
     requirements = []
@@ -24,12 +26,13 @@ tests_require = read_requirements_file('test-requirements.txt')
 
 if sys.version_info < (2, 7):
     tests_require.append('unittest2')
+
 if sys.version_info < (3, 0):
     tests_require.append('mock')
 
 setuptools.setup(
     name='sprockets.mixins.statsd',
-    version='1.0.3',
+    version=version,
     description='Handler mixins for automated metric reporting',
     long_description=codecs.open('README.rst', encoding='utf-8').read(),
     url='https://github.com/sprockets/sprockets.mixins.statsd.git',
