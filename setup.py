@@ -3,8 +3,6 @@ import sys
 
 import setuptools
 
-from sprockets.mixins.statsd import __version__ as version
-
 
 def read_requirements_file(req_name):
     requirements = []
@@ -32,7 +30,7 @@ if sys.version_info < (3, 0):
 
 setuptools.setup(
     name='sprockets.mixins.statsd',
-    version=version,
+    version='1.0.4',
     description='Handler mixins for automated metric reporting',
     long_description=codecs.open('README.rst', encoding='utf-8').read(),
     url='https://github.com/sprockets/sprockets.mixins.statsd.git',
