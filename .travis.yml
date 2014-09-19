@@ -17,6 +17,7 @@ after_success:
 deploy:
   provider: pypi
   user: sprockets
+  distributions: "sdist bdist_wheel"
   on:
     python: 2.7
     tags: true
