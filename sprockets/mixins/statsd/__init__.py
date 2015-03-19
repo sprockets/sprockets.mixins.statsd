@@ -36,10 +36,11 @@ Each request will send metrics ``on_finish`` in the following format:
 
 """
 import os
+import socket
 
 from sprockets.clients import statsd
 
-version_info = (1, 0, 4)
+version_info = (1, 1, 0)
 __version__ = '.'.join(str(v) for v in version_info)
 
 
@@ -76,20 +77,21 @@ class RequestMetricsMixin(object):
 
         .. code::
 
-            <STATSD_PREFIX>.counters.package[.module].Class.METHOD.STATUS
-            sprockets.counters.tornado.web.RequestHandler.GET.200
+            <PREFIX>.counters.<host>.package[.module].Class.METHOD.STATUS
+            sprockets.counters.localhost.tornado.web.RequestHandler.GET.200
 
         Adds a value to a timer in the following format:
 
         .. code::
 
-            <STATSD_PREFIX>.timers.package[.module].Class.METHOD.STATUS
-            sprockets.timers.tornado.web.RequestHandler.GET.200
+            <PREFIX>.timers.<host>.package[.module].Class.METHOD.STATUS
+            sprockets.timers.localhost.tornado.web.RequestHandler.GET.200
 
         """
         if hasattr(self, 'request') and self.request:
             statsd.add_timing(self.statsd_prefix,
                               'timers',
+                              socket.gethostname(),
                               self.__module__,
                               self.__class__.__name__,
                               self.request.method,
@@ -98,6 +100,7 @@ class RequestMetricsMixin(object):
 
             statsd.incr(self.statsd_prefix,
                         'counters',
+                        socket.gethostname(),
                         self.__module__,
                         self.__class__.__name__,
                         self.request.method,
