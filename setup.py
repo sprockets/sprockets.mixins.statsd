@@ -1,38 +1,10 @@
-import codecs
-import sys
-
 import setuptools
-
-
-def read_requirements_file(req_name):
-    requirements = []
-    try:
-        with codecs.open(req_name, encoding='utf-8') as req_file:
-            for req_line in req_file:
-                if '#' in req_line:
-                    req_line = req_line[0:req_line.find('#')].strip()
-                if req_line:
-                    requirements.append(req_line.strip())
-    except IOError:
-        pass
-    return requirements
-
-
-install_requires = read_requirements_file('requirements.txt')
-setup_requires = read_requirements_file('setup-requirements.txt')
-tests_require = read_requirements_file('test-requirements.txt')
-
-if sys.version_info < (2, 7):
-    tests_require.append('unittest2')
-
-if sys.version_info < (3, 0):
-    tests_require.append('mock')
 
 setuptools.setup(
     name='sprockets.mixins.statsd',
-    version='1.1.0',
+    version='1.2.0',
     description='Handler mixins for automated metric reporting',
-    long_description=codecs.open('README.rst', encoding='utf-8').read(),
+    long_description=open('README.rst').read(),
     url='https://github.com/sprockets/sprockets.mixins.statsd.git',
     author='AWeber Communications',
     author_email='api@aweber.com',
@@ -62,8 +34,5 @@ setuptools.setup(
     include_package_data=True,
     namespace_packages=['sprockets',
                         'sprockets.mixins'],
-    install_requires=install_requires,
-    setup_requires=setup_requires,
-    tests_require=tests_require,
-    test_suite='nose.collector',
+    install_requires=open("requirements.txt").read(),
     zip_safe=False)

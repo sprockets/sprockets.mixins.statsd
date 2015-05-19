@@ -1,5 +1,6 @@
 %YAML 1.1
 ---
+sudo: True
 language: python
 python:
   - 2.6
@@ -9,7 +10,7 @@ python:
   - 3.3
   - 3.4
 install:
-  - pip install -e .
+  - pip install requirements.txt
   - pip install -r test-requirements.txt
 script: nosetests
 after_success:
