@@ -40,15 +40,20 @@ import socket
 
 from sprockets.clients import statsd
 
-version_info = (1, 1, 0)
-__version__ = '.'.join(str(v) for v in version_info)
+__version__ = '1.2.0'
+
+
+add_timing = statsd.add_timing
+incr = statsd.incr
+set_gauge = statsd.set_gauge
+execution_timer = statsd.execution_timer
 
 
 class RequestMetricsMixin(object):
     """Automatically sends statsd metrics upon the completion of each request.
 
     As with all mixins, ensure that you inherit from the mixin classes
-    *before* you inherit from a concrete class.  In addition to this, alway
+    *before* you inherit from a concrete class.  In addition to this, always
     remember to ``super`` the ``on_finish`` and ``prepare`` methods should
     you decide to extend them.
 
@@ -68,7 +73,6 @@ class RequestMetricsMixin(object):
             self.write(yield self.foo())
 
     """
-
     statsd_prefix = os.getenv('STATSD_PREFIX', 'sprockets')
 
     def on_finish(self):
@@ -88,18 +92,19 @@ class RequestMetricsMixin(object):
             sprockets.timers.localhost.tornado.web.RequestHandler.GET.200
 
         """
+        if self.statsd_prefix != statsd.STATSD_PREFIX:
+            statsd.set_prefix(self.statsd_prefix)
+
         if hasattr(self, 'request') and self.request:
-            statsd.add_timing(self.statsd_prefix,
-                              'timers',
+            statsd.add_timing('timers',
                               socket.gethostname(),
                               self.__module__,
-                              self.__class__.__name__,
+                              str(self.__class__.__name__),
                               self.request.method,
                               str(self._status_code),
                               value=self.request.request_time() * 1000)
 
-            statsd.incr(self.statsd_prefix,
-                        'counters',
+            statsd.incr('counters',
                         socket.gethostname(),
                         self.__module__,
                         self.__class__.__name__,
