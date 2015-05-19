@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='sprockets.mixins.statsd',
-    version='1.2.0',
+    version='1.2.1',
     description='Handler mixins for automated metric reporting',
     long_description=open('README.rst').read(),
     url='https://github.com/sprockets/sprockets.mixins.statsd.git',
