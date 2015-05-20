@@ -3,6 +3,7 @@ Tests for the sprockets.mixins.statsd package
 
 """
 import mock
+import socket
 try:
     import unittest2 as unittest
 except ImportError:
@@ -12,7 +13,7 @@ from tornado import httputil
 from tornado import web
 
 
-from sprockets.mixins import statsd
+from sprockets.mixins import statsd as statsd
 
 
 class StatsdRequestHandler(statsd.RequestMetricsMixin,
@@ -43,24 +44,20 @@ class MixinTests(unittest.TestCase):
         self.handler = StatsdRequestHandler(self.application, self.request)
         self.handler._status_code = 200
 
-    @mock.patch('sprockets.mixins.statsd.socket')
-    @mock.patch('sprockets.mixins.statsd.add_timing')
-    @mock.patch('sprockets.mixins.statsd.incr')
-    def test_on_finish_calls_statsd_add_timing(self, incr, add_timing, socket):
-        socket.gethostbyname = mock.Mock(return_value='localhost')
+    def test_on_finish_calls_statsd_add_timing(self):
         self.request._finish_time = self.request._start_time + 1
         self.duration = self.request._finish_time - self.request._start_time
-        self.handler.on_finish()
-        add_timing.assert_called_once_with(
-            'sprockets', 'timers', socket.gethostname.return_value, 'tests',
-            'StatsdRequestHandler', 'GET', '200', value=self.duration * 1000)
+        with mock.patch('sprockets.clients.statsd.add_timing') as add_timing:
+            self.handler.on_finish()
+            add_timing.assert_called_once_with('timers', socket.gethostname(),
+                                               'tests', 'StatsdRequestHandler',
+                                               'GET', '200',
+                                                value=self.duration * 1000)
 
-    @mock.patch('sprockets.mixins.statsd.socket')
-    @mock.patch('sprockets.mixins.statsd.add_timing')
-    @mock.patch('sprockets.mixins.statsd.incr')
-    def test_on_finish_calls_statsd_incr(self, incr, add_timing, socket):
-        socket.gethostbyname = mock.Mock(return_value='localhost')
-        self.handler.on_finish()
-        incr.assert_called_once_with(
-            'sprockets', 'counters', socket.gethostname.return_value,
-            'tests', 'StatsdRequestHandler', 'GET', '200')
+    def test_on_finish_calls_statsd_incr(self):
+        with mock.patch('sprockets.clients.statsd.incr') as incr:
+            self.handler.on_finish()
+            incr.assert_called_once_with('counters',
+                                         socket.gethostname(),
+                                         'tests', 'StatsdRequestHandler',
+                                         'GET', '200')
