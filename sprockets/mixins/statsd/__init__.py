@@ -57,12 +57,20 @@ class RequestMetricsMixin(object):
     remember to ``super`` the ``on_finish`` and ``prepare`` methods should
     you decide to extend them.
 
+    If the :envvar:`STATSD_USE_HOSTNAME` variable is set to `False` then
+    the hostname will not be reported as part of the metrics path.  This
+    is useful for collecting metrics in a containerized environment.  By
+    default the hostname is part of the metric path.
+
     Example Usage
     -------------
 
     class MyRequestHandler(
             sprockets.mixins.statsd.RequestMetricsMixin,
             tornado.web.RequestHandler):
+
+        statsd_prefix = 'my_awesome_app'
+        use_hostname = True
 
         def prepare(self):
             super(RequestMetricsMixin, self).prepare()
@@ -74,6 +82,7 @@ class RequestMetricsMixin(object):
 
     """
     statsd_prefix = os.getenv('STATSD_PREFIX', 'sprockets')
+    statsd_use_hostname = os.getenv('STATSD_USE_HOSTNAME', True)
 
     def on_finish(self):
         """Invoked once the request has been finished. Increments a counter
@@ -96,16 +105,21 @@ class RequestMetricsMixin(object):
             statsd.set_prefix(self.statsd_prefix)
 
         if hasattr(self, 'request') and self.request:
-            statsd.add_timing('timers',
-                              socket.gethostname(),
+            if self.statsd_use_hostname:
+                timer_prefix = 'timers.{}'.format(socket.gethostname())
+                counter_prefix = 'counters.{}'.format(socket.gethostname())
+            else:
+                timer_prefix = 'timers'
+                counter_prefix = 'counters'
+
+            statsd.add_timing(timer_prefix,
                               self.__module__,
                               str(self.__class__.__name__),
                               self.request.method,
                               str(self._status_code),
                               value=self.request.request_time() * 1000)
 
-            statsd.incr('counters',
-                        socket.gethostname(),
+            statsd.incr(counter_prefix,
                         self.__module__,
                         self.__class__.__name__,
                         self.request.method,
