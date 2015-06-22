@@ -40,7 +40,7 @@ import socket
 
 from sprockets.clients import statsd
 
-__version__ = '1.2.1'
+__version__ = '1.3.0'
 
 
 add_timing = statsd.add_timing
