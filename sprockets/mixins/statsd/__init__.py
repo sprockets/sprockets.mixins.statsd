@@ -106,8 +106,8 @@ class RequestMetricsMixin(object):
 
         if hasattr(self, 'request') and self.request:
             if self.statsd_use_hostname:
-                timer_prefix = 'timers.{}'.format(socket.gethostname())
-                counter_prefix = 'counters.{}'.format(socket.gethostname())
+                timer_prefix = 'timers.{0}'.format(socket.gethostname())
+                counter_prefix = 'counters.{0}'.format(socket.gethostname())
             else:
                 timer_prefix = 'timers'
                 counter_prefix = 'counters'
