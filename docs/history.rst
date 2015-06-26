@@ -3,6 +3,9 @@ Version History
 
 Next Release
 ------------
+
+`1.3.1`_ (2015-06-26)
+=====================
 - Fix the configurable hostname in the metric path by coercing the environment variable string to a boolean.
 
 `1.3.0`_ (2015-06-22)
@@ -23,6 +26,7 @@ Next Release
 =====================
  - Initial version
 
+.. _1.3.0: https://github-enterprise.colo.lair/aweber/communicator/compare/1.3.0...1.3.1
 .. _1.3.0: https://github-enterprise.colo.lair/aweber/communicator/compare/1.2.1...1.3.0
 .. _1.2.1: https://github-enterprise.colo.lair/aweber/communicator/compare/1.2.0...1.2.1
 .. _1.2.0: https://github-enterprise.colo.lair/aweber/communicator/compare/1.1.1...1.2.0
