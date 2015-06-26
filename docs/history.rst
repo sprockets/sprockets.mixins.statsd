@@ -1,10 +1,14 @@
 Version History
 ---------------
 
+Next Release
+------------
+- Fix the configurable hostname in the metric path by coercing the environment variable string to a boolean.
+
 `1.3.0`_ (2015-06-22)
 =====================
  - Make hostname in path configurable via environment variable
- 
+
 `1.1.0`_ (2015-03-19)
 =====================
  - Insert the hostname into the metric path
