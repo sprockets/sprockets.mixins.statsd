@@ -84,7 +84,7 @@ class RequestMetricsMixin(object):
     """
     statsd_prefix = os.getenv('STATSD_PREFIX', 'sprockets')
     statsd_use_hostname = distutils.util.strtobool(
-        os.getenv('STATSD_USE_HOSTNAME', 'False'))
+        os.getenv('STATSD_USE_HOSTNAME', 'True'))
 
     def on_finish(self):
         """Invoked once the request has been finished. Increments a counter
