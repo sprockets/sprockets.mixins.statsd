@@ -35,6 +35,7 @@ Each request will send metrics ``on_finish`` in the following format:
             self.finish({'hello': 'world'})
 
 """
+import distutils.util
 import os
 import socket
 
@@ -82,7 +83,8 @@ class RequestMetricsMixin(object):
 
     """
     statsd_prefix = os.getenv('STATSD_PREFIX', 'sprockets')
-    statsd_use_hostname = os.getenv('STATSD_USE_HOSTNAME', True)
+    statsd_use_hostname = distutils.util.strtobool(
+        os.getenv('STATSD_USE_HOSTNAME', 'False'))
 
     def on_finish(self):
         """Invoked once the request has been finished. Increments a counter
