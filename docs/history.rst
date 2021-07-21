@@ -1,8 +1,9 @@
 Version History
 ---------------
 
-Next Release
-------------
+1.4.0 (2021-07-21)
+==================
+- Project deprecated and will be archived.  Use sprockets-statsd instead.
 
 `1.3.1`_ (2015-06-26)
 =====================
