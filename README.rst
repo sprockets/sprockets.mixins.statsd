@@ -5,6 +5,13 @@ sending statsd increment and timing values as each request finishes.
 
 |Version| |Downloads| |Status| |Coverage| |License|
 
+Deprecation Notice
+------------------
+This project has been replaced by `sprockets-statsd`_ and wil no longer be
+maintained.  If you are currently using it, please migrate away from it.
+
+.. _sprockets-statsd: https://sprockets-statsd.readthedocs.io/en/latest/
+
 Installation
 ------------
 sprockets.mixins.statsd is available on the
