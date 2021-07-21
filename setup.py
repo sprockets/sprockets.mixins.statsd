@@ -8,7 +8,7 @@ setuptools.setup(
     url='https://github.com/sprockets/sprockets.mixins.statsd.git',
     author='AWeber Communications',
     author_email='api@aweber.com',
-    license=open('LICENSE').read(),
+    license='BSD',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
